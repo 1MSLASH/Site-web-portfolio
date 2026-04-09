@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Imran ARIF — Développeur Web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #181818;
+      --border: #2a2a2a;
+      --text: #e8e6e0;
+      --muted: #7a7870;
+      --accent: #338feb;
+      --accent-dim: #0d5aa7;
+      --dot:#c8f542;
+      --font: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+      --radius: 12px;
+      --max: 1000px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; font-size: 16px; font-weight: 300; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 5%; border-bottom: 1px solid var(--border);
+      background: rgba(15,15,15,0.85); backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 14px; color: var(--accent); letter-spacing: 0.02em; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* Layout */
+    main { max-width: var(--max); margin: 0 auto; padding: 0 5%; }
+    section { padding: 100px 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    /* Hero */
+    #hero { padding-top: 160px; padding-bottom: 120px; display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: center; }
+    .hero-left {}
+    .hero-badge { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; display: block; }
+    .hero-name { font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 300; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .hero-name strong { font-weight: 500; color: var(--accent); }
+    .hero-desc { font-size: 16px; color: var(--muted); max-width: 480px; line-height: 1.7; margin-bottom: 36px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 99px; font-size: 14px; font-weight: 400; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--accent); color: #0f0f0f; font-weight: 500; }
+    .btn-primary:hover { background: var(--accent-dim); }
+    .btn-secondary { border: 1px solid var(--border); color: var(--text); background: transparent; }
+    .btn-secondary:hover { border-color: var(--muted); background: var(--surface); }
+
+    /* Photo block */
+    .hero-photo {
+      display: flex; flex-direction: column; align-items: center; gap: 14px; flex-shrink: 0;
+    }
+    .photo-frame {
+      width: 250px; height: 250px; border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      overflow: hidden; position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .photo-initials {
+      font-family: var(--mono); font-size: 36px; color: var(--accent); font-weight: 500; letter-spacing: 0.05em;
+    }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .photo-hint { font-family: var(--mono); font-size: 10px; color: var(--muted); text-align: center; letter-spacing: 0.06em; line-height: 1.6; }
+    .status-pill {
+      display: flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      padding: 6px 12px; border: 1px solid var(--border); border-radius: 99px;
+      background: var(--surface); white-space: nowrap;
+    }
+    .status-dot { width: 6px; height: 6px; background: var(--dot); border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* Section headers */
+    .section-label { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .about-text { font-size: 16px; color: var(--text); line-height: 1.8; font-weight: 300; }
+    .about-text p + p { margin-top: 16px; }
+    .about-aside { display: flex; flex-direction: column; gap: 0; }
+    .info-row { display: flex; justify-content: space-between; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 14px; gap: 12px; }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { color: var(--muted); font-size: 11px; font-family: var(--mono); letter-spacing: 0.05em; flex-shrink: 0; }
+    .info-val { color: var(--text); text-align: right; }
+
+    /* Skills */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; transition: border-color 0.2s; }
+    .skill-card:hover { border-color: var(--muted); }
+    .skill-category { font-size: 11px; font-family: var(--mono); color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag { font-size: 13px; padding: 4px 12px; border-radius: 99px; background: rgba(66, 161, 245, 0.06); color: var(--text); border: 1px solid rgba(200,245,66,0.14); }
+    .skill-tag.learning { background: rgba(255,255,255,0.04); border-color: var(--border); color: var(--muted); font-style: italic; }
+
+    /* Experience */
+    .exp-list { display: flex; flex-direction: column; gap: 20px; }
+    .exp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 28px; transition: border-color 0.2s; }
+    .exp-card:hover { border-color: var(--muted); }
+    .exp-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+    .exp-title { font-size: 16px; font-weight: 500; }
+    .exp-date { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .exp-company { font-size: 13px; color: var(--accent); margin-bottom: 12px; font-family: var(--mono); letter-spacing: 0.03em; }
+    .exp-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .exp-tag { font-family: var(--mono); font-size: 11px; padding: 3px 10px; border-radius: 4px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
+
+    /* Projects */
+    .projects-grid { display: flex; flex-direction: column; gap: 16px; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 28px; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; transition: border-color 0.2s; }
+    .project-card:hover { border-color: var(--muted); }
+    .project-num { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+    .project-title { font-size: 17px; font-weight: 500; margin-bottom: 8px; color: var(--text); }
+    .project-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+    .stack-tag { font-family: var(--mono); font-size: 11px; padding: 3px 10px; border-radius: 4px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
+    .project-links { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; flex-shrink: 0; }
+    .proj-link { font-size: 12px; font-family: var(--mono); color: var(--accent); text-decoration: none; letter-spacing: 0.05em; white-space: nowrap; }
+    .proj-link:hover { color: var(--text); }
+    .private-badge { font-size: 11px; font-family: var(--mono); color: var(--muted); padding: 3px 8px; border: 1px solid var(--border); border-radius: 4px; white-space: nowrap; }
+
+    /* Contact */
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .contact-intro { font-size: 16px; color: var(--text); line-height: 1.8; font-weight: 300; }
+    .contact-links { display: flex; flex-direction: column; gap: 10px; }
+    .contact-link { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; color: var(--text); font-size: 14px; transition: all 0.2s; }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+    .contact-link-label { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 13px; }
+    .contact-icon { font-size: 14px; width: 18px; text-align: center; }
+
+    /* Footer */
+    footer { text-align: center; padding: 40px 5%; font-size: 12px; font-family: var(--mono); color: var(--muted); border-top: 1px solid var(--border); letter-spacing: 0.04em; }
+
+    /* Responsive */
+    @media (max-width: 680px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-photo { flex-direction: row; align-items: center; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 36px; }
+      .project-card { grid-template-columns: 1fr; }
+      .project-links { flex-direction: row; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Imran Arif</span>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#projects">Projets</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- Hero -->
+  <section id="hero">
+    
+
+    <div class="hero-left">
+      <span class="hero-badge">— Disponible pour alternance · 2026</span>
+      <h1 class="hero-name">
+        Bonjour, je suis<br>
+        <strong>Imran ARIF</strong>
+      </h1>
+      <p class="hero-desc">
+        Développeur web Full Stack en 3ème année de BUT Informatique à l'IUT de Paris Rives de Seine.
+        Passionné par la conception UI/UX, le développement mobile et l'IA.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">Voir mes projets →</a>
+        <a href="Imran_ARIF_CV.pdf" class="btn btn-secondary" target="_blank">Télécharger le CV</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="photo-frame">
+        <img src="shin_glasses.jpg" alt="Imran ARIF" />
+      </div>
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        En recherche d'alternance
+      </div>
+    </div>
+  
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="section-label">À propos</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Étudiant en BUT Informatique (parcours réalisation d'applications) à l'IUT de Paris Rives de Seine,
+          je développe mes compétences depuis plusieurs années entre projets académiques, stages et alternance.
+        </p>
+        <p>
+          Je ne veux pas seulement coder — je veux concevoir des architectures robustes, penser l'expérience
+          utilisateur et piloter des projets de A à Z. C'est ce qui m'a conduit à candidater en cycle ingénieur.
+        </p>
+        <p>
+          En dehors du code, je suis passionné par la robotique, la culture japonaise, l'intelligence artificielle
+          et les jeux vidéo. J'apprends également le japonais depuis quelques années.
+        </p>
+      </div>
+      <div class="about-aside">
+        <div class="info-row"><span class="info-label">Formation</span><span class="info-val">BUT Informatique — IUT Paris Rives de Seine</span></div>
+        <div class="info-row"><span class="info-label">Alternance</span><span class="info-val">Webmaster — CFA AFIA (sept. 2025 – sept. 2026)</span></div>
+        <div class="info-row"><span class="info-label">Objectif</span><span class="info-val">Cycle ingénieur en apprentissage — rentrée 2026</span></div>
+        <div class="info-row"><span class="info-label">Langues</span><span class="info-val">Français (C2) · Anglais (B2-C1) · Japonais (A1)</span></div>
+        <div class="info-row"><span class="info-label">Localisation</span><span class="info-val">Villepinte / Paris, Île-de-France</span></div>
+        <div class="info-row"><span class="info-label">Contact</span><span class="info-val">imran.arif86@icloud.com</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="section-label">Compétences</div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-category">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">HTML / CSS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">WordPress / Divi</span>
+          <span class="skill-tag">Figma</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-category">Mobile & Backend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Flutter / Dart</span>
+          <span class="skill-tag">Java / Android</span>
+          <span class="skill-tag">Spring Boot</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Firebase</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-category">Outils & méthodes</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git / GitHub / GitLab</span>
+          <span class="skill-tag">SCRUM / KANBAN</span>
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Suite Office</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-category">En apprentissage</div>
+        <div class="skill-tags">
+          <span class="skill-tag learning">Architectures distribuées</span>
+          <span class="skill-tag learning">IA / Machine Learning</span>
+          <span class="skill-tag learning">Cloud & DevOps</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="section-label">Expérience</div>
+    <div class="exp-list">
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <span class="exp-title">Alternance — Webmaster</span>
+          <span class="exp-date">sept. 2025 – sept. 2026</span>
+        </div>
+        <div class="exp-company">O'BUSSY GSM</div>
+        <div class="exp-desc">
+          Pilotage complet de la plateforme digitale d'une boutique de réparation : conception UI/UX sur Figma,
+          intégration WordPress avec CSS sur mesure, mise en production, débogage et optimisation technique (cache, responsive).
+          Gestion de la relation client et ventes en parallèle.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">WordPress</span>
+          <span class="exp-tag">Figma</span>
+          <span class="exp-tag">CSS</span>
+          <span class="exp-tag">UI/UX</span>
+          <span class="exp-tag">Relation client</span>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <span class="exp-title">Stage alterné — Développeur Junior</span>
+          <span class="exp-date">mars 2025 – juil. 2025</span>
+        </div>
+        <div class="exp-company">WebApp Cinéma (assistants réalisateurs)</div>
+        <div class="exp-desc">
+          Refonte du front-end d'une WebApp métier destinée à la communauté des assistants réalisateurs.
+          Débogage back-end, ajouts UI/UX, reverse engineering du code existant et collaboration via GitHub en équipe.
+        </div>
+        <div class="exp-tags">
+          <span class="exp-tag">React</span>
+          <span class="exp-tag">JavaScript</span>
+          <span class="exp-tag">GitHub</span>
+          <span class="exp-tag">Reverse Engineering</span>
+          <span class="exp-tag">UI/UX</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-label">Projets réalisés</div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div>
+          <div class="project-num">01 — BUT Informatique</div>
+          <h3 class="project-title">Application mobile — Vie étudiante</h3>
+          <p class="project-desc">
+            Application mobile complète de gestion de la vie étudiante. Chef de projet :
+            rédaction du cahier des charges, gestion d'équipe, conception Figma,
+            développement Flutter/Dart avec intégration d'une API Spring Boot.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Flutter</span>
+            <span class="stack-tag">Dart</span>
+            <span class="stack-tag">Spring Boot</span>
+            <span class="stack-tag">Figma</span>
+          </div>
+        </div>
+        <div class="project-links">
+          <span class="private-badge">code privé</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div>
+          <div class="project-num">02 — BUT Informatique</div>
+          <h3 class="project-title">App Android — Dons aux associations</h3>
+          <p class="project-desc">
+            Application Android pour la gestion des dons aux associations de France Assos Santé.
+            Prototypage Figma, développement Java sous Android Studio, base de données Firebase,
+            versioning GitHub.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Java</span>
+            <span class="stack-tag">Android Studio</span>
+            <span class="stack-tag">Firebase</span>
+            <span class="stack-tag">Figma</span>
+            <span class="stack-tag">GitHub</span>
+          </div>
+        </div>
+        <div class="project-links">
+          <span class="private-badge">code privé</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div>
+          <div class="project-num">03 — BUT Informatique · Client réel</div>
+          <h3 class="project-title">Refonte du site — France Assos Santé</h3>
+          <p class="project-desc">
+            Refonte complète du site web d'une association dans le cadre d'une mise en situation professionnelle.
+            Conception Figma, développement front-end HTML/CSS/JavaScript,
+            présentation du rendu final au client.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">HTML</span>
+            <span class="stack-tag">CSS</span>
+            <span class="stack-tag">JavaScript</span>
+            <span class="stack-tag">Figma</span>
+          </div>
+        </div>
+        <div class="project-links">
+          <span class="private-badge">code privé</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div>
+          <div class="project-num">04 — Projet personnel</div>
+          <h3 class="project-title">Site web portfolio</h3>
+          <p class="project-desc">
+            Conception et développement de mon portfolio personnel. Maquettage sur Figma,
+            intégration front-end HTML/CSS/JavaScript, hébergement en ligne.
+            Ce que vous lisez en ce moment !
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">HTML</span>
+            <span class="stack-tag">CSS</span>
+            <span class="stack-tag">JavaScript</span>
+            <span class="stack-tag">Figma</span>
+          </div>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/1MSLASH/Site-web-portfolio" class="proj-link">voir sur GitHub →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="section-label">Contact</div>
+    <div class="contact-inner">
+      <div class="contact-intro">
+        Vous recrutez un alternant développeur web pour un cycle ingénieur ou pour une mission en entreprise ?<br><br>
+        Je réponds rapidement — n'hésitez pas à me contacter par email ou LinkedIn.
+      </div>
+      <div class="contact-links">
+        <a href="mailto:imran.arif86@icloud.com" class="contact-link">
+          <span class="contact-link-label"><span class="contact-icon">✉️</span>imran.arif86@icloud.com</span>
+          <span style="font-size:12px;opacity:0.5">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/1mran-arif" target="_blank" class="contact-link">
+          <span class="contact-link-label"><span class="contact-icon">in</span>linkedin.com/in/1mran-arif</span>
+          <span style="font-size:12px;opacity:0.5">→</span>
+        </a>
+        <a href="tel:0649859616" class="contact-link">
+          <span class="contact-link-label"><span class="contact-icon">📞</span>06 49 85 96 16</span>
+          <span style="font-size:12px;opacity:0.5">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Conçu et développé par Imran ARIF — 2026
+</footer>
+
+</body>
+</html>
